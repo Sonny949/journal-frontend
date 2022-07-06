@@ -5,10 +5,10 @@ import CategorySelection from "./pages/CategorySelection";
 import Home from "./pages/Home";
 import NewEntry from "./pages/NewEntry";
 import ShowEntry from "./pages/ShowEntry";
-import useStore from "../reducer";
 import StoreContext from "../store";
+import useStore from "../reducer";
 
-
+const api = import.meta.env.VITE_API_ENDPOINT || "http://localhost:4000/api/v1";
 
 function App() {
   const [store, dispatch] = useStore()
@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     async function getEntries() {
-      const res = await fetch("http://localhost:4000/api/v1/entries");
+      const res = await fetch(`${api}/entries`);
       dispatch({
         type: 'setEntries',
         data: await res.json()
@@ -32,7 +32,7 @@ function App() {
 
   async function addEntry(category, entry) {
     const newEntry = { category, entry }
-    const res = await fetch("http://localhost:4000/api/v1/entries", {
+    const res = await fetch(`${api}/entries`, {
       method: 'post',
       headers: {
         'Accept': 'application/json',
